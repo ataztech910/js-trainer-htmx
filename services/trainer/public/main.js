@@ -79,10 +79,19 @@ async function writeIndexJS(content) {
 };
 
 
+htmx.onLoad(() => {
+    console.log('loaded');
+
+});
+document.body.addEventListener('htmx:afterSwap', async () => {
+    console.log('loaded');
+});
+
 /** @return {Promise} */
 window.addEventListener('load', async () => {
 //   textareaEl.value = files['index.js'].file.contents;
-  textareaEl.value = `
+
+textareaEl.value = `
     import express from 'express';
 
     const app = express();
@@ -139,5 +148,6 @@ CodeMirror.fromTextArea(textareaEl, {
   };
 
   startDevServer(terminal);
+  
 });
 

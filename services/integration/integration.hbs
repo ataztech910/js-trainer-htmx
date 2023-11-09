@@ -2,14 +2,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/public/htmx.min.js"></script>
+    <script  src="/public/htmx.min.js"></script>
     <title>Document</title>
 </head>
 <body>
     <h1>Tarainer app</h1>
     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil dolorem, dolorum illum tempore numquam cum! Dolore placeat sed velit rerum unde officia pariatur, nulla soluta ratione iste possimus vitae molestias?</p>
-    <div hx-get="/?module=trainer" hx-trigger="load">
+    <div hx-get="/?module=trainer" hx-trigger="load throttle:5s">
      Load trainer app
     </div>
+
+    <script>
+        document.body.addEventListener('htmx:afterSwap', async () => {
+            console.log('loaded in parent');
+        });
+    </script>
+    
 </body>
 </html>
