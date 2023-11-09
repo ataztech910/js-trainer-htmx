@@ -1,0 +1,11 @@
+version: '3'
+services:
+  service:
+    image: cyberport-carousel-service
+    build: .
+    ports:
+      - "3000:3000"
+
+networks:
+  services:
+    driver: bridge

@@ -1,0 +1,22 @@
+<div class="productItemWrapper carousel-component__item">
+{{!-- TODO put the url host into env variables --}}
+<a class="carousel-component__link" href="https://cyberport.de{{this.url}}">
+    <img class="carousel-component__media" alt="" width="200" height="200" src="{{this.img.url}}?$Tile_200$">
+        <h3 class="carousel-component__title">{{this.title}}</h3>
+        <div class="carousel-component__availability carousel-component__availability--available">Sofort verfügbar</div>
+    
+    <div class="carousel-component__prices">
+        <div class="carousel-component__uvp">
+        <span class="carousel-component__uvp-price">€ {{this.retailPriceGross_AT}} UVP</span>
+        <sl-tooltip class="carousel-component__tooltip" content="UVP des Herstellers vom 15.10.2023">
+            <sl-button role="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+                <path id="info" d="M7.5 0a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15zM6.2 2.5h2.5v2H6.2v-2zm3.8 10H5v-1h1.2v-4h-.7v-1h3.2v5H10v1z"/>
+            </svg>
+            </sl-button>
+        </sl-tooltip>
+        </div>
+        <div class="carousel-component__price">€ {{this.retailPriceNet_AT}}</div>
+    </div>
+</a>
+</div>
