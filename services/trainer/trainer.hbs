@@ -2,23 +2,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <link rel="stylesheet" href="/public/codemirror.css" />
+    <title>Trainer</title>
+    <link rel="stylesheet" href="/public/codemirror.css" />
     <link rel="stylesheet" href="/public/style.css" />
 
     <script defer src="/public/codemirror.js"></script>
     <script defer src="/public/javascript.js"></script>
-    <script>var exports = {};</script>
     <script defer type="module" src="/public/dist/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.2/split.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+
+        .split {
+            display: flex;
+            flex-direction: row;
+            gap: 0;
+        }
+
+        .gutter {
+            background-color: #eee;
+            background-repeat: no-repeat;
+            background-position: 50%;
+        }
+
+        .gutter.gutter-horizontal {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+            cursor: col-resize;
+        }
+
+        
+        .gutter.gutter-vertical {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+            cursor: row-resize;
+        }
+    </style>
 </head>
 <body>
     
 </body>
 </html>
-<htmx id="trainer">
+
     
-   <trainer-component>
-    <div id="app"></div>
-   </trainer-component> 
-    
-</htmx>
+<trainer-component>
+<div id="app" class="trainer-block">
+    <div class="container split" id="vertical-0">
+        <div class="editor" id="split-0">
+            <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">I am a textarea</textarea>
+        </div>
+        <div class="preview" id="split-1">
+            <iframe anonymous  src="http://localhost:3000/public/loading.html"></iframe>
+        </div>
+    </div>
+    <div class="terminal" id="vertical-1"></div>
+</div>
+</trainer-component> 
+<script>
+    Split(['#split-0', '#split-1']);
+    Split(['#vertical-0', '#vertical-1'], {
+        direction: 'vertical',
+    });
+</script> 
+
+</body>
+</html>

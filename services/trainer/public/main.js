@@ -9,144 +9,151 @@ class TrainerComponent extends HTMLElement {
         this.initTrainter();
     }
     initTrainter() {
-/** @type {import('@webcontainer/api').WebContainer}  */
-let webcontainerInstance;
+      /** @type {import('@webcontainer/api').WebContainer}  */
+      let webcontainerInstance;
+      
+      /** @type {HTMLTextAreaElement | null} */
+      const terminalEl = document.querySelector('.terminal');
 
-document.querySelector('#app').innerHTML = `
-          <div class="container">
-          <div class="editor">
-              <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">I am a textarea</textarea>
-          </div>
-          <div class="preview">
-            <iframe anonymous  src="http://localhost:3000/public/loading.html"></iframe>
-          </div>
-          </div>
-          <div class="terminal"></div>  
-`;
+      /** @type {HTMLIFrameElement | null} */
+      const iframeEl = document.querySelector('iframe');
 
-/** @type {HTMLTextAreaElement | null} */
-const terminalEl = document.querySelector('.terminal');
+      /** @type {HTMLTextAreaElement | null} */
+      const textareaEl = document.querySelector('textarea');
 
-/** @type {HTMLIFrameElement | null} */
-const iframeEl = document.querySelector('iframe');
+      /**
+       * @param {Terminal} terminal
+       */
+      async function startDevServer(terminal) {
+        // Run `npm run start` to start the Express app
+        // await webcontainerInstance.spawn('npm', ['run', 'start']);
+        const serverProcess = await webcontainerInstance.spawn('npm', [
+          'run',
+          'start',
+        ]);
 
-/** @type {HTMLTextAreaElement | null} */
-const textareaEl = document.querySelector('textarea');
+        serverProcess.output.pipeTo(
+          new WritableStream({
+            write(data) {
+              terminal.write(data);
+            },
+          })
+        );
 
+        // Wait for `server-ready` event
+        webcontainerInstance.on('server-ready', (port, url) => {
+          iframeEl.src = url;
+        });
+      }
 
-/**
- * @param {Terminal} terminal
- */
-async function startDevServer(terminal) {
-  // Run `npm run start` to start the Express app
-  // await webcontainerInstance.spawn('npm', ['run', 'start']);
-  const serverProcess = await webcontainerInstance.spawn('npm', [
-    'run',
-    'start',
-  ]);
+      /**
+       * @param {Terminal} terminal
+       */
+      async function installDependencies(terminal) {
+        // Install dependencies
+        const installProcess = await webcontainerInstance.spawn('npm', ['install']);
 
-  serverProcess.output.pipeTo(
-    new WritableStream({
-      write(data) {
-        terminal.write(data);
-      },
-    })
-  );
-
-  // Wait for `server-ready` event
-  webcontainerInstance.on('server-ready', (port, url) => {
-    iframeEl.src = url;
-  });
-}
-
-/**
- * @param {Terminal} terminal
- */
-async function installDependencies(terminal) {
-  // Install dependencies
-  const installProcess = await webcontainerInstance.spawn('npm', ['install']);
-
-  installProcess.output.pipeTo(new WritableStream({
-    write(data) {
-      terminal.write(data);
-    }
-  }));
-  // Wait for install command to exit
-  return installProcess.exit;
-}
+        installProcess.output.pipeTo(new WritableStream({
+          write(data) {
+            terminal.write(data);
+          }
+        }));
+        // Wait for install command to exit
+        return installProcess.exit;
+      }
 
 
-/** @param {string} content*/
+      /** @param {string} content*/
 
-async function writeIndexJS(content) {
-  await webcontainerInstance.fs.writeFile('/index.js', content);
-};
+      async function writeIndexJS(content) {
+        await webcontainerInstance.fs.writeFile('/index.js', content);
+      };
 
 
 
-/** @return {Promise} */
-window.addEventListener('load', async () => {
-//   textareaEl.value = files['index.js'].file.contents;
+      /** @return {Promise} */
+      window.addEventListener('load', async () => {
+      //   textareaEl.value = files['index.js'].file.contents;
 
-textareaEl.value = `
-    import express from 'express';
+      textareaEl.value = `import express from 'express';
+const app = express();
+const port = 3111;
 
-    const app = express();
-    const port = 3111;
-
-    app.get('/', (req, res) => {
-    res.send('Welcome to a WebContainers app! 🥳');
-    });
-
-    app.listen(port, () => {
-    console.log('App is live');
-    });
-
-`;
-  textareaEl.addEventListener('input', (e) => {
-    writeIndexJS(e.currentTarget.value);
-  });
-
-//--------------
-CodeMirror.fromTextArea(textareaEl, {
-  lineNumbers: true,
-  matchBrackets: true,
-  mode: "javascript",
-  theme: "rails-envy"
-}).on('update', (changeObj) => {
-  writeIndexJS(changeObj.doc.getValue());
+app.get('/', (req, res) => {
+ res.send('Welcome to a WebContainers app! 🥳');
 });
-//--------------
- 
-  const terminal = new Terminal({
-    convertEol: true,
-  });
-  terminal.open(terminalEl);
 
-  // Call only once
-  webcontainerInstance = await WebContainer.boot();
-  const files = {
-    "index.js": {
-        "file": {
-            "contents": "\n  import express from 'express';\n  const app = express();\n  const port = 3111;\n  \n  app.get('/', (req, res) => {\n    res.send('Welcome to a WebContainers app! 🥳');\n  });\n  \n  app.listen(port, () => {\n    console.log(`App is live at http://localhost:${port}`);\n  });"
-        }
-    },
-    "package.json": {
-        "file": {
-            "contents": "\n  {\n    \"name\": \"example-app\",\n    \"type\": \"module\",\n    \"dependencies\": {\n      \"express\": \"latest\",\n      \"nodemon\": \"latest\"\n    },\n    \"scripts\": {\n      \"start\": \"nodemon --watch './' index.js\"\n    }\n  }"
-        }
-    }
-    };
-  await webcontainerInstance.mount(files);
-
-  const exitCode = await installDependencies(terminal);
-  if (exitCode !== 0) {
-    throw new Error('Installation failed');
-  };
-
-  startDevServer(terminal);
-  
+app.listen(port, () => {
+ console.log('App is live');
 });
+
+      `;
+        textareaEl.addEventListener('input', (e) => {
+          writeIndexJS(e.currentTarget.value);
+        });
+
+      //--------------
+      CodeMirror.fromTextArea(textareaEl, {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "javascript",
+        theme: "rails-envy"
+      }).on('update', (changeObj) => {
+        writeIndexJS(changeObj.doc.getValue());
+      });
+      //--------------
+      
+        const terminal = new Terminal({
+          convertEol: true,
+        });
+        terminal.open(terminalEl);
+
+        // Call only once
+        webcontainerInstance = await WebContainer.boot();
+        const files = {
+          'index.js': {
+            file: {
+              contents: `
+        import express from 'express';
+        const app = express();
+        const port = 3111;
+        
+        app.get('/', (req, res) => {
+          res.send('Welcome to a WebContainers app! 🥳');
+        });
+        
+        app.listen(port, () => {
+          console.log(\`App is live at http://localhost:\${port}\`);
+        });`,
+            },
+          },
+          'package.json': {
+            file: {
+              contents: `
+        {
+          "name": "example-app",
+          "type": "module",
+          "dependencies": {
+            "express": "latest",
+            "nodemon": "latest"
+          },
+          "scripts": {
+            "start": "nodemon --watch './' index.js"
+          }
+        }`,
+            },
+          },
+        };
+        await webcontainerInstance.mount(files);
+
+        const exitCode = await installDependencies(terminal);
+        if (exitCode !== 0) {
+          throw new Error('Installation failed');
+        };
+
+        startDevServer(terminal);
+        
+      });
 
     }
 }

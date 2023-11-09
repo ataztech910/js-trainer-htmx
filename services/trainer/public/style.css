@@ -10,14 +10,13 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  height: 65%;
+  height: 100%;
   width: 100%;
 }
 
 textarea {
   width: 100%;
-  height: 50vh;
+  /* height: 100vh; */
   resize: none;
   background: rgb(88, 75, 75);
   color: white;
@@ -31,7 +30,7 @@ iframe {
 }
 
 .editor {
-  height: 65vh;
+  /* height: 100vh; */
 }
 
 .cm-s-rails-envy {
@@ -96,4 +95,16 @@ iframe {
 }
 .cm-s-rails-envy .CodeMirror-linenumber {
 	color: #75715E;
+}
+
+.trainer-block {
+	position: relative;
+}
+
+.xterm {
+	height: 100%;
+}
+
+.terminal {
+	overflow: hidden;
 }
