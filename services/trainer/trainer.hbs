@@ -42,14 +42,14 @@
 </html>
 
     
-<trainer-component>
+<trainer-component files="{{files}}">
 <div id="app" class="trainer-block">
     <div class="container split" id="vertical-0">
         <div class="editor" id="split-0">
             <textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">I am a textarea</textarea>
         </div>
         <div class="preview" id="split-1">
-            <iframe anonymous  src="http://localhost:3000/public/loading.html"></iframe>
+            <iframe anonymous  src="/public/loading.html"></iframe>
         </div>
     </div>
     <div class="terminal" id="vertical-1"></div>
@@ -59,6 +59,7 @@
     Split(['#split-0', '#split-1']);
     Split(['#vertical-0', '#vertical-1'], {
         direction: 'vertical',
+        sizes: [75, 25]
     });
 </script> 
 

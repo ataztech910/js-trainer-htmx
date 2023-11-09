@@ -10,7 +10,7 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 100%;
+  height: calc(80.1822% - 5px);
   width: 100%;
 }
 

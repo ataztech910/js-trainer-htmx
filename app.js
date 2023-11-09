@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
     import(`./services/${req.query.module}/${req.query.module}.mjs`).then((module) => {
       app.use('/public', express.static(path.join(__dirname, `/services/${req.query.module}/public/`)));
       app.set('views', __dirname + `/services/${req.query.module}`);
-      module.service(res, req.query.view, req.query.module);
+      module.service(res, req.query);
     });
   } catch(error) {
     console.error('No such module');

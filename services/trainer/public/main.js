@@ -9,6 +9,9 @@ class TrainerComponent extends HTMLElement {
         this.initTrainter();
     }
     initTrainter() {
+
+      const files = JSON.parse(this.getAttribute('files'));
+
       /** @type {import('@webcontainer/api').WebContainer}  */
       let webcontainerInstance;
       
@@ -74,20 +77,9 @@ class TrainerComponent extends HTMLElement {
       /** @return {Promise} */
       window.addEventListener('load', async () => {
       //   textareaEl.value = files['index.js'].file.contents;
-
-      textareaEl.value = `import express from 'express';
-const app = express();
-const port = 3111;
-
-app.get('/', (req, res) => {
- res.send('Welcome to a WebContainers app! 🥳');
-});
-
-app.listen(port, () => {
- console.log('App is live');
-});
-
-      `;
+       
+      console.log(JSON.parse(this.getAttribute('files')));
+      textareaEl.value = files['index.js'].file.contents;
         textareaEl.addEventListener('input', (e) => {
           writeIndexJS(e.currentTarget.value);
         });
@@ -110,40 +102,40 @@ app.listen(port, () => {
 
         // Call only once
         webcontainerInstance = await WebContainer.boot();
-        const files = {
-          'index.js': {
-            file: {
-              contents: `
-        import express from 'express';
-        const app = express();
-        const port = 3111;
+        // const files = {
+        //   'index.js': {
+        //     file: {
+        //       contents: `
+        // import express from 'express';
+        // const app = express();
+        // const port = 3111;
         
-        app.get('/', (req, res) => {
-          res.send('Welcome to a WebContainers app! 🥳');
-        });
+        // app.get('/', (req, res) => {
+        //   res.send('Welcome to a WebContainers app! 🥳');
+        // });
         
-        app.listen(port, () => {
-          console.log(\`App is live at http://localhost:\${port}\`);
-        });`,
-            },
-          },
-          'package.json': {
-            file: {
-              contents: `
-        {
-          "name": "example-app",
-          "type": "module",
-          "dependencies": {
-            "express": "latest",
-            "nodemon": "latest"
-          },
-          "scripts": {
-            "start": "nodemon --watch './' index.js"
-          }
-        }`,
-            },
-          },
-        };
+        // app.listen(port, () => {
+        //   console.log(\`App is live at http://localhost:\${port}\`);
+        // });`,
+        //     },
+        //   },
+        //   'package.json': {
+        //     file: {
+        //       contents: `
+        // {
+        //   "name": "example-app",
+        //   "type": "module",
+        //   "dependencies": {
+        //     "express": "latest",
+        //     "nodemon": "latest"
+        //   },
+        //   "scripts": {
+        //     "start": "nodemon --watch './' index.js"
+        //   }
+        // }`,
+        //     },
+        //   },
+        // };
         await webcontainerInstance.mount(files);
 
         const exitCode = await installDependencies(terminal);
