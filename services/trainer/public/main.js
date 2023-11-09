@@ -1,10 +1,14 @@
-// @ts-nocheck
 import { WebContainer } from '@webcontainer/api';
-// import files from 'files';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
 
 
+class TrainerComponent extends HTMLElement {
+    constructor() {
+        super();
+        this.initTrainter();
+    }
+    initTrainter() {
 /** @type {import('@webcontainer/api').WebContainer}  */
 let webcontainerInstance;
 
@@ -79,13 +83,6 @@ async function writeIndexJS(content) {
 };
 
 
-htmx.onLoad(() => {
-    console.log('loaded');
-
-});
-document.body.addEventListener('htmx:afterSwap', async () => {
-    console.log('loaded');
-});
 
 /** @return {Promise} */
 window.addEventListener('load', async () => {
@@ -151,3 +148,8 @@ CodeMirror.fromTextArea(textareaEl, {
   
 });
 
+    }
+}
+
+
+customElements.define('trainer-component', TrainerComponent);

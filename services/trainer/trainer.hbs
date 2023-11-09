@@ -1,11 +1,24 @@
-<htmx id="trainer" _="on htmx:afterSettle log 'Settled!'"> 
-    <link rel="stylesheet" href="/public/codemirror.css" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="/public/codemirror.css" />
     <link rel="stylesheet" href="/public/style.css" />
 
     <script defer src="/public/codemirror.js"></script>
     <script defer src="/public/javascript.js"></script>
-
-    <div id="app"></div>
     <script>var exports = {};</script>
-    <script hx-trigger="htmx:afterSwap"defer type="module" src="/public/dist/bundle.js"></script>
+    <script defer type="module" src="/public/dist/bundle.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+<htmx id="trainer">
+    
+   <trainer-component>
+    <div id="app"></div>
+   </trainer-component> 
+    
 </htmx>
