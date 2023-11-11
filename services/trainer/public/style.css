@@ -1,3 +1,9 @@
+:root {
+	--main-bg-color: rgb(19 19 29);
+	--lines-color: rgb(252, 227, 138);
+	--gutter-color: #3f3f31;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -5,6 +11,9 @@
 body {
   margin: 0;
   height: 100vh;
+  background-color: var(--main-bg-color);
+  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Lato', sans-serif;
 }
 
 .container {
@@ -108,6 +117,17 @@ iframe {
 
 .terminal {
 	overflow: hidden;
+	/* background-color: var(--main-bg-color); */
+}
+iframe {
+	background-color: #fff;
+}
+.xterm .xterm-viewport {
+	background-color: var(--main-bg-color) !important;
+}
+
+.CodeMirror-scroll, .CodeMirror-sizer, .CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber {
+	background-color: var(--main-bg-color);
 }
 
 .trainer-main {
@@ -120,12 +140,13 @@ iframe {
 
 .trainer-main__nav-and-task {
 	display: flex;
-	background-color: rgb(36, 34, 34);
+	background-color: var(--main-bg-color);
 	color: #fff;
 }
 .trainer-main__task {
 	width: 100%;
 	padding: 2rem;
+	line-height: 2;
 }
 
 .trainer-main__nav, .trainer-block {
@@ -136,6 +157,7 @@ iframe {
 .trainer-main__nav {
 	padding: 1rem;
 	height: 100vh;
+	border-right: 1px solid var(--lines-color);
 }
 
 .navigation ul {
@@ -146,7 +168,6 @@ iframe {
 .navigatoin__logo {
 	text-align: center;
 	padding: 0.5rem;
-	border: 1px solid #fff;
 	margin-bottom: 2rem;
 }
 
@@ -155,6 +176,8 @@ iframe {
 	color: #fff;
 	padding: 0.5rem;
 	display: block;
+	text-align: center;
+    line-height: 2;
 }
 
 .navigation a:hover {
@@ -163,4 +186,27 @@ iframe {
 
 .trainer-main__trainer {
 	border-right: 1px solid rgb(36, 34, 34);
+}
+
+.split {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+}
+
+.gutter {
+	background-color: var(--gutter-color);
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+	cursor: col-resize;
+}
+
+
+.gutter.gutter-vertical {
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+	cursor: row-resize;
 }
