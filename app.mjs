@@ -21,12 +21,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/shared-public', express.static(path.join(__dirname, `/services/shared/public/`)));
+// app.use('/shared-public', express.static(path.join(__dirname, `/services/shared/public/`)));
+app.use('/public', express.static(path.join(__dirname, `/services/public/`)));
 
 app.get('/', async (req, res) => {
   console.log('Request params', req.query.view);
   console.log(__dirname);
-  app.use('/public', express.static(path.join(__dirname, `/services/${req.query.module}/public/`)));
   app.set('views', __dirname + `/services/${req.query.module}`);
   ServiceInit({
     method: 'get',
