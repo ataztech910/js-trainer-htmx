@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { ServiceInit } from './services/core/core.mjs';
-import serverless from 'serverless-http';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({path: './.env'});
@@ -40,36 +39,6 @@ app.get('/', async (req, res) => {
 
 app.use(compression());
 
-
-
-if (process.env.ENVIRONMENT === 'production') {
-  const binaryMimeTypes = [
-    "application/javascript",
-    "application/json",
-    "application/octet-stream",
-    "application/xml",
-    "image/jpeg",
-    "image/png",
-    "image/gif",
-    "text/comma-separated-values",
-    "text/css",
-    "text/html",
-    "text/javascript",
-    "text/plain",
-    "text/text",
-    "text/xml",
-    "image/x-icon",
-    "image/svg+xml",
-    "application/x-font-ttf",
-    "font/ttf",
-    "font/otf",
-  ];
-
-  exports.handler = serverless(app, {
-    binary: binaryMimeTypes,
-  });
-} else {
-  app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${process.env.PORT}`)
-  });
-}
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}`)
+});
