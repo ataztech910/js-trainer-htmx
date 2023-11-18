@@ -1,20 +1,11 @@
-# Fetching the minified node image on apline linux
-FROM node:slim
+FROM public.ecr.aws/lambda/nodejs:14
+# Alternatively, you can pull the base image from Docker Hub: amazon/aws-lambda-nodejs:12
 
-# Declaring env
-ENV NODE_ENV development
-
-# Setting up the work directory
-WORKDIR /carousel-service
-
-# Copying all the files in our project
+# Assumes your function is named "app.js", and there is a package.json file in the app directory 
 COPY . .
 
-# Installing dependencies
+# Install NPM dependencies for function
 RUN npm install
 
-# Starting our application
-CMD [ "npm", "run", "start" ]
-
-# Exposing server port
-EXPOSE 5000
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+CMD [ "lambda.handler" ]

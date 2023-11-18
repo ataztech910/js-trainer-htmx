@@ -5,12 +5,14 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "start": "node  ./app.js",
-    "dev": "nodemon ./app.js",
+    "start": "node  ./app.mjs",
+    "dev": "nodemon ./app.mjs",
     "bundle:carousel": "webpack --mode=development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
     "@webcontainer/api": "^1.1.8",
     "algoliasearch": "^4.20.0",
     "code-mirror-themes": "^1.0.0",
@@ -19,6 +21,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "hbs": "^4.2.0",
+    "serverless": "^3.37.0",
+    "serverless-http": "^3.2.0",
     "webpack": "^5.88.2",
     "xterm": "^5.3.0"
   },
