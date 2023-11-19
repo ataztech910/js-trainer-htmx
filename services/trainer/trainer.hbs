@@ -10,7 +10,7 @@
       rel="stylesheet"
       type="text/css"
     />
-    <script src="/public/tailwind.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +22,9 @@
     <script>let globalEditor = null;</script>
     <script defer type="module" src="/public/dist/bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.2/split.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.8" integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-</body>
-</html>
 
 <div class="trainer-main">
     <div class="trainer-main__nav-and-task" id="split-main-0">
@@ -101,6 +99,7 @@ Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming 
     </div>
 </div>
 
+<script src="/public/tailwind.js"></script>
 <script>
     // TODO bundle this part in separated file
     Split(['#split-main-0', '#split-main-1'], {

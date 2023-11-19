@@ -247,3 +247,19 @@ iframe {
 .text {
 	color: #fff;
 }
+
+.modal {
+	width: 100%;
+    height: 100vh;
+}
+
+dialog::backdrop {
+	background-color: rgba(23, 60, 163, 0.877);
+}
+
+dialog#logout[open] {
+	pointer-events: inherit;
+    visibility: visible;
+    opacity: 1;
+	background-color: transparent !important;
+}

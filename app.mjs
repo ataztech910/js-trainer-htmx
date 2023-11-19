@@ -4,8 +4,10 @@ import hbs from 'hbs';
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
-import { ServiceInit } from './services/core/core.mjs';
+import { renderService, executeService } from './services/utils/run-service.mjs';
 import bodyParser from "body-parser";
+import cookieParser  from "cookie-parser";
+import { isAuth } from "./services/utils/is-auth.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({path: './.env'});
@@ -22,34 +24,44 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.use('/shared-public', express.static(path.join(__dirname, `/services/shared/public/`)));
 app.use('/public', express.static(path.join(__dirname, `/services/public/`)));
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.get('/', async (req, res) => {
-  console.log('Request params', req.query.view);
-  console.log(__dirname);
-  app.set('views', __dirname + `/services/${req.query.module}`);
-  ServiceInit({
-    method: 'get',
-    servicePath: `../../services/${req.query.module}/${req.query.module}.mjs`,
-    res,
-    query: req.query
-  });
+app.use((req, res, next) => {
+  const authToken = req.cookies['AuthToken'];
+  const refreshToken = req.cookies['RefreshToken'];
+  req.user = {
+    authToken,
+    refreshToken
+  };
+  next();
 });
 
-app.post('/', async (req, res) => {
-  console.log(req.body);
-  ServiceInit({
-    method: 'post',
-    servicePath: `../../services/${req.query.module}/${req.query.module}.post.mjs`,
-    res,
-    body: req.body,
-    query: req.query
-  });
+
+app.get('/auth', async (req, res) => {
+  renderService(app, 'auth', res, req.query, __dirname);
 });
+
+app.get('/services', isAuth, async (req, res) => {
+  renderService(app, req.query.module, res, req.query, __dirname);
+});
+
+const utilityMethods = ['post', 'delete'];
+utilityMethods.forEach((method) => {
+  app[method]('/:module', async (req, res) => {
+    console.log(req.body);
+    executeService({
+      method: 'post',
+      servicePath: `../../services/${req.params.module}/${req.params.module}.${method}.mjs`,
+      res,
+      body: req.body,
+      query: req.query
+    });
+  });
+})
+
 
 app.use(compression());
 
