@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node  ./app.mjs",
     "dev": "nodemon ./app.mjs",
-    "bundle:carousel": "webpack --mode=development",
+    "bundle:trainer": "webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

@@ -2,8 +2,8 @@ const path = require("path");
 
 // We can move service name to the environment variables
 SERVICE_NAME = "trainer";
-ENTRY_PATH = path.resolve(__dirname, `services/${SERVICE_NAME}/public/main.js`)
-DIST_PATH = path.resolve(__dirname, `services/${SERVICE_NAME}/public/dist`)
+ENTRY_PATH = path.resolve(__dirname, `services/public/main.js`)
+DIST_PATH = path.resolve(__dirname, `services/public/dist`)
 
 module.exports = {
    entry: {

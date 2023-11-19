@@ -1,10 +1,16 @@
-<html lang="en">
+<html lang="en" data-theme="night">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trainer</title>
     <link rel="stylesheet" href="/public/codemirror.css" />
     <link rel="stylesheet" href="/public/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="/public/tailwind.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +19,7 @@
 
     <script defer src="/public/codemirror.js"></script>
     <script defer src="/public/javascript.js"></script>
+    <script>let globalEditor = null;</script>
     <script defer type="module" src="/public/dist/bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.2/split.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
@@ -26,7 +33,7 @@
         <div class="trainer-main__nav">
             {{> navigation }}
         </div>
-        <div class="trainer-main__task">
+        <div class="trainer-main__task text">
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
 
 Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
@@ -95,6 +102,7 @@ Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming 
 </div>
 
 <script>
+    // TODO bundle this part in separated file
     Split(['#split-main-0', '#split-main-1'], {
         sizes: [35, 65],
         gutterSize: 4
@@ -107,6 +115,33 @@ Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming 
         sizes: [75, 25],
         gutterSize: 4
     });
+
+
+    const themes = ['night', 'cmyk'];
+    const themeController = document.querySelector('.theme-controller');
+    const html = document.querySelector('html');
+    const fillCurrent = document.querySelector('.fill-current');
+    const menu = document.querySelectorAll('.text');
+    let editorWrapper = null;
+    let editoGutterWrapper = null;
+    let terminal = null;
+    
+    setTimeout(()=> {
+        editorWrapper = document.querySelector('.cm-s-rails-envy');
+        editoGutterWrapper = document.querySelector('.CodeMirror-gutters');
+        terminal = document.querySelector('.xterm-rows');
+    }, 1500);
+    console.log('menu', menu);
+    let isDark = true;
+    function setTheme() {
+        isDark = !isDark;
+        html.setAttribute("data-theme", themes[isDark ? 0 : 1]); 
+        fillCurrent.style.fill = 'black';
+        menu.forEach(element => element.style.color = isDark ? 'white': 'black');
+        isDark ? editorWrapper.classList.remove('cm-s-rails-envy--light') : editorWrapper.classList.add('cm-s-rails-envy--light');
+        isDark ? editoGutterWrapper.classList.remove('cm-s-rails-envy--light') : editoGutterWrapper.classList.add('cm-s-rails-envy--light');
+        isDark ? terminal.classList.remove('xterm-rows--light') : terminal.classList.add('xterm-rows--light');
+    }
 </script> 
 
 </body>

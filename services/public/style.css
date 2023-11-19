@@ -1,7 +1,8 @@
 :root {
-	--main-bg-color: rgb(19 19 29);
+	--main-bg-color: var(background-color);
 	--lines-color: rgb(252, 227, 138);
 	--gutter-color: #3f3f31;
+	color: var(currentColor);
 }
 
 * {
@@ -40,6 +41,7 @@ iframe {
 
 .editor {
   /* height: 100vh; */
+  background-color: var(--main-bg-color);
 }
 
 .cm-s-rails-envy {
@@ -48,16 +50,22 @@ iframe {
 	font-family: inconsolata, monospace;
 	letter-spacing: 0.3px;
 	word-spacing: 1px;
-	background: #121210;
+	background: #0f1729;
 	color: #F8F8F2;
 }
+
+.cm-s-rails-envy--light {
+	background-color: #ffffff !important;
+	color: #000000;
+}
+
 .cm-s-rails-envy .CodeMirror-lines {
 	padding: 8px 0;
 }
 .cm-s-rails-envy .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-	background-color: #121210;
+	background-color: #0f1729;
 	padding-right: 10px;
 	z-index: 3;
 	border: none;
@@ -77,6 +85,10 @@ iframe {
 .cm-s-rails-envy .cm-string {
 	color: #FFFF66;
 }
+.cm-s-rails-envy--light .cm-string {
+	color: #080808;
+}
+
 .cm-s-rails-envy .cm-number {
 	color: #66D9EF;
 }
@@ -89,16 +101,34 @@ iframe {
 .cm-s-rails-envy .cm-variable {
 	color: #A6E22E;
 }
+
+.cm-s-rails-envy--light .cm-variable  {
+	color: #975203;
+}
+
 .cm-s-rails-envy .cm-def {
 	font-style: italic;
 	color: #FD971F;
 }
+.cm-s-rails-envy--light .cm-def {
+	color: #975203;
+}
+
 .cm-s-rails-envy .cm-variable-2 {
 	color: #52F9F9;
 }
 .cm-s-rails-envy .cm-property {
 	color: #66D9EF;
 }
+
+.cm-s-rails-envy--light .cm-variable-2, .cm-s-rails-envy--light .cm-property  {
+	color: #975203;
+}
+
+.xterm-rows--light {
+	color: #000000 !important;
+}
+
 .cm-s-rails-envy .cm-operator {
 	color: #40A187;
 }
@@ -141,7 +171,7 @@ iframe {
 .trainer-main__nav-and-task {
 	display: flex;
 	background-color: var(--main-bg-color);
-	color: #fff;
+	/* color: #fff; */
 }
 .trainer-main__task {
 	width: 100%;
@@ -173,15 +203,10 @@ iframe {
 
 .navigation a {
 	text-decoration: none;
-	color: #fff;
 	padding: 0.5rem;
 	display: block;
 	text-align: center;
     line-height: 2;
-}
-
-.navigation a:hover {
-	text-decoration: underline;
 }
 
 .trainer-main__trainer {
@@ -209,4 +234,16 @@ iframe {
 .gutter.gutter-vertical {
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
 	cursor: row-resize;
+}
+
+.theme-switch {
+	position: fixed;
+    bottom: 20px;
+    text-align: center;
+    margin: 0 auto;
+    width: 86px;
+}
+
+.text {
+	color: #fff;
 }

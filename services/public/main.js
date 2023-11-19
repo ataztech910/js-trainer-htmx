@@ -2,8 +2,8 @@ import { WebContainer } from '@webcontainer/api';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
 
-
 class TrainerComponent extends HTMLElement {
+    globalEditor = null;
     constructor() {
         super();
         this.initTrainter();
@@ -76,8 +76,6 @@ class TrainerComponent extends HTMLElement {
 
       /** @return {Promise} */
       window.addEventListener('load', async () => {
-      //   textareaEl.value = files['index.js'].file.contents;
-       
       console.log(JSON.parse(this.getAttribute('files')));
       textareaEl.value = files['index.js'].file.contents;
         textareaEl.addEventListener('input', (e) => {
@@ -85,7 +83,7 @@ class TrainerComponent extends HTMLElement {
         });
 
       //--------------
-      CodeMirror.fromTextArea(textareaEl, {
+      this.globalEditor = CodeMirror.fromTextArea(textareaEl, {
         lineNumbers: true,
         matchBrackets: true,
         mode: "javascript",
@@ -102,40 +100,7 @@ class TrainerComponent extends HTMLElement {
 
         // Call only once
         webcontainerInstance = await WebContainer.boot();
-        // const files = {
-        //   'index.js': {
-        //     file: {
-        //       contents: `
-        // import express from 'express';
-        // const app = express();
-        // const port = 3111;
-        
-        // app.get('/', (req, res) => {
-        //   res.send('Welcome to a WebContainers app! 🥳');
-        // });
-        
-        // app.listen(port, () => {
-        //   console.log(\`App is live at http://localhost:\${port}\`);
-        // });`,
-        //     },
-        //   },
-        //   'package.json': {
-        //     file: {
-        //       contents: `
-        // {
-        //   "name": "example-app",
-        //   "type": "module",
-        //   "dependencies": {
-        //     "express": "latest",
-        //     "nodemon": "latest"
-        //   },
-        //   "scripts": {
-        //     "start": "nodemon --watch './' index.js"
-        //   }
-        // }`,
-        //     },
-        //   },
-        // };
+       
         await webcontainerInstance.mount(files);
 
         const exitCode = await installDependencies(terminal);

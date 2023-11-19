@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { ServiceInit } from './services/core/core.mjs';
+import bodyParser from "body-parser";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({path: './.env'});
@@ -24,6 +25,9 @@ app.use(function(req, res, next) {
 // app.use('/shared-public', express.static(path.join(__dirname, `/services/shared/public/`)));
 app.use('/public', express.static(path.join(__dirname, `/services/public/`)));
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 app.get('/', async (req, res) => {
   console.log('Request params', req.query.view);
   console.log(__dirname);
@@ -34,7 +38,17 @@ app.get('/', async (req, res) => {
     res,
     query: req.query
   });
-  
+});
+
+app.post('/', async (req, res) => {
+  console.log(req.body);
+  ServiceInit({
+    method: 'post',
+    servicePath: `../../services/${req.query.module}/${req.query.module}.post.mjs`,
+    res,
+    body: req.body,
+    query: req.query
+  });
 });
 
 app.use(compression());
