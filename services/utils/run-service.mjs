@@ -1,6 +1,5 @@
 function executeService(config) {
     try {
-        console.log(config);
         import(config.servicePath).then((module) => {
             module.service(config.res, config.query, config.body, config.module);
         });
@@ -10,7 +9,6 @@ function executeService(config) {
 }
 
 function renderService(app, module, res, query, root) {
-    console.log('PATH', root + `/services/${module}`);
     app.set('views', root + `/services/${module}`);
     executeService({
       method: 'get',

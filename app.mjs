@@ -39,6 +39,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', async (req, res) => {
+  renderService(app, 'main-page', res, req.query, __dirname);
+});
+
 
 app.get('/auth', async (req, res) => {
   renderService(app, 'auth', res, req.query, __dirname);
